@@ -1,0 +1,43 @@
+
+# Train/val/test sets as 1) dir: path/to/imgs, 2) file: path/to/imgs.txt, or 3) list: [path/to/imgs1, path/to/imgs2, ..]
+path: F:\Projects\datasets\RTCS  # dataset root dir
+# path: /local_data/datasets/3-7 TH -v1  # dataset root dir
+train:  # train images (relative to 'path') 128 images
+  - train
+val: # val images (relative to 'path') 128 images
+  - val
+test:  # test images (optional)
+
+# Classes
+names:
+  0: NG_scratch
+  1: NG_damage
+  2: NG_contamination
+  3: NG_fpdent
+  4: NG_fibra
+  5: OK
+  6: NG
+  7: NG
+  8: NG
+  9: NG
+  10: NG
+  11: NG
+  12: NG
+  13: NG
+  14: NG
+  15: NG
+  16: NG
+  17: NG
+  18: NG
+  19: NG
+  20: NG
+  21: NG
+  22: NG
+  23: NG
+  24: NG
+  25: NG
+  26: NG
+  27: NG
+  28: NG
+  29: NG
+  30: NG

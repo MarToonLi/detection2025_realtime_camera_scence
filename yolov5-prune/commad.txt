@@ -1,0 +1,683 @@
+代码来自:BiliBli 魔鬼面具up主
+
+########################## prune models/yolov5n.yaml ##########################
+nohup python train.py --weights yolov5n.pt --data /root/dataset/dataset_crowdhuman/data_exp.yaml --cfg models/yolov5n.yaml --epochs 10 --cache --batch-size 64 \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n > logs/yolov5n.log 2>&1 & tail -f logs/yolov5n.log
+
+nohup python compress.py --data /home/hjj/Desktop/dataset/dataset_crowdhuman/data_exp.yaml --weights runs/train/yolov5n/weights/best.pt \
+    --epochs 200 --cache --batch-size 64 --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_lamp_exp1 \
+    --prune_method lamp --speed_up 2.0 > logs/yolov5n_lamp_exp1.log 2>&1 & tail -f logs/yolov5n_lamp_exp1.log
+
+nohup python compress.py --data /root/dataset/dataset_crowdhuman/data_exp.yaml --weights runs/train/yolov5n/weights/best.pt \
+    --epochs 200 --cache --batch-size 64 --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_slim_exp1 \
+    --prune_method slim --speed_up 2.0 --reg 7e-3 --sl_epochs 300  > logs/yolov5n_slim_exp1.log 2>&1 & tail -f logs/yolov5n_slim_exp1.log
+
+nohup python compress.py --data /home/hjj/Desktop/dataset/dataset_crowdhuman/data_exp.yaml --weights runs/train/yolov5n/weights/best.pt \
+    --epochs 200 --cache --batch-size 64 --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_groupslim_exp1 \
+    --prune_method group_slim --speed_up 2.0 --reg 8e-3 --sl_epochs 300  > logs/yolov5n_groupslim_exp1.log 2>&1 & tail -f logs/yolov5n_groupslim_exp1.log
+
+nohup python compress.py --data /home/hjj/Desktop/dataset/dataset_crowdhuman/data_exp.yaml --weights runs/train/yolov5n/weights/best.pt \
+    --epochs 200 --cache --batch-size 64 --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_groupnorm_exp1 \
+    --prune_method group_norm --speed_up 2.0 > logs/yolov5n_groupnorm_exp1.log 2>&1 & tail -f logs/yolov5n_groupnorm_exp1.log
+
+nohup python compress.py --data /home/hjj/Desktop/dataset/dataset_crowdhuman/data_exp.yaml --weights runs/train/yolov5n/weights/best.pt \
+    --epochs 200 --cache --batch-size 64 --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_groupsl_exp1 \
+    --prune_method group_sl --speed_up 2.0 --reg 1e-3 --sl_epochs 300  > logs/yolov5n_groupsl_exp1.log 2>&1 & tail -f logs/yolov5n_groupsl_exp1.log
+
+python val.py --weights runs/train/yolov5n/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_crowdhuman/data_exp.yaml --batch-size 32 --task test --name yolov5n
+python val.py --weights runs/train/yolov5n_lamp_exp1/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_crowdhuman/data_exp.yaml --batch-size 32 --task test --name yolov5n_lamp_exp1
+python val.py --weights runs/train/yolov5n_slim_exp1/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_crowdhuman/data_exp.yaml --batch-size 32 --task test --name yolov5n_slim_exp1
+python val.py --weights runs/train/yolov5n_groupslim_exp1/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_crowdhuman/data_exp.yaml --batch-size 32 --task test --name yolov5n_groupslim_exp1
+python val.py --weights runs/train/yolov5n_groupnorm_exp1/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_crowdhuman/data_exp.yaml --batch-size 32 --task test --name yolov5n_groupnorm_exp1
+python val.py --weights runs/train/yolov5n_groupsl_exp1/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_crowdhuman/data_exp.yaml --batch-size 32 --task test --name yolov5n_groupsl_exp1
+
+python latency.py --weights runs/train/yolov5n/weights/best.pt --batch 32
+python latency.py --weights runs/train/yolov5n_lamp_exp1/weights/best.pt --batch 32
+python latency.py --weights runs/train/yolov5n_slim_exp1/weights/best.pt --batch 32
+python latency.py --weights runs/train/yolov5n_groupslim_exp1/weights/best.pt --batch 32
+python latency.py --weights runs/train/yolov5n_groupnorm_exp1/weights/best.pt --batch 32
+python latency.py --weights runs/train/yolov5n_groupsl_exp1/weights/best.pt --batch 32
+
+########################## prune models/yolov5n-C3-Faster-Rep.yaml ##########################
+nohup python train.py --weights yolov5n.pt --data /home/hjj/Desktop/dataset/dataset_crowdhuman/data_exp.yaml --cfg models/yolov5n-C3-Faster-Rep.yaml --epochs 300 --cache --batch-size 64 \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_C3_Faster_Rep > logs/yolov5n_C3_Faster_Rep.log 2>&1 & tail -f logs/yolov5n_C3_Faster_Rep.log
+
+nohup python compress.py --data /home/hjj/Desktop/dataset/dataset_crowdhuman/data_exp.yaml --weights runs/train/yolov5n_C3_Faster_Rep/weights/best.pt \
+    --epochs 200 --cache --batch-size 64 --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_C3_Faster_Rep_lamp_exp1 \
+    --prune_method lamp --speed_up 2.0 > logs/yolov5n_C3_Faster_Rep_lamp_exp1.log 2>&1 & tail -f logs/yolov5n_C3_Faster_Rep_lamp_exp1.log
+
+nohup python compress.py --data /home/hjj/Desktop/dataset/dataset_crowdhuman/data_exp.yaml --weights runs/train/yolov5n_C3_Faster_Rep/weights/best.pt \
+    --epochs 200 --cache --batch-size 64 --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_C3_Faster_Rep_slim_exp1 \
+    --prune_method slim --speed_up 2.0 --reg 7e-3 --sl_epochs 400  > logs/yolov5n_C3_Faster_Rep_slim_exp1.log 2>&1 & tail -f logs/yolov5n_C3_Faster_Rep_slim_exp1.log
+
+nohup python compress.py --data /home/hjj/Desktop/dataset/dataset_crowdhuman/data_exp.yaml --weights runs/train/yolov5n_C3_Faster_Rep/weights/best.pt \
+    --epochs 200 --cache --batch-size 64 --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_C3_Faster_Rep_groupslim_exp1 \
+    --prune_method group_slim --speed_up 2.0 --reg 8e-3 --sl_epochs 400  > logs/yolov5n_C3_Faster_Rep_groupslim_exp1.log 2>&1 & tail -f logs/yolov5n_C3_Faster_Rep_groupslim_exp1.log
+
+nohup python compress.py --data /home/hjj/Desktop/dataset/dataset_crowdhuman/data_exp.yaml --weights runs/train/yolov5n_C3_Faster_Rep/weights/best.pt \
+    --epochs 200 --cache --batch-size 64 --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_C3_Faster_Rep_groupsl_exp1 \
+    --prune_method group_sl --speed_up 2.0 --reg 1e-3 --sl_epochs 400  > logs/yolov5n_C3_Faster_Rep_groupsl_exp1.log 2>&1 & tail -f logs/yolov5n_C3_Faster_Rep_groupsl_exp1.log
+
+nohup python compress.py --data /home/hjj/Desktop/dataset/dataset_crowdhuman/data_exp.yaml --weights runs/train/yolov5n_C3_Faster_Rep/weights/best.pt \
+    --epochs 200 --cache --batch-size 64 --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_C3_Faster_Rep_groupnorm_exp1 \
+    --prune_method group_norm --speed_up 2.0 > logs/yolov5n_C3_Faster_Rep_groupnorm_exp1.log 2>&1 & tail -f logs/yolov5n_C3_Faster_Rep_groupnorm_exp1.log
+
+nohup python compress.py --data /home/hjj/Desktop/dataset/dataset_crowdhuman/data_exp.yaml --weights runs/train/yolov5n_C3_Faster_Rep/weights/best.pt \
+    --epochs 200 --cache --batch-size 64 --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_C3_Faster_Rep_grouphessian_exp1 \
+    --prune_method group_hessian --speed_up 2.0 > logs/yolov5n_C3_Faster_Rep_grouphessian_exp1.log 2>&1 & tail -f logs/yolov5n_C3_Faster_Rep_grouphessian_exp1.log
+
+nohup python compress.py --data /home/hjj/Desktop/dataset/dataset_crowdhuman/data_exp.yaml --weights runs/train/yolov5n_C3_Faster_Rep/weights/best.pt \
+    --epochs 200 --cache --batch-size 64 --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_C3_Faster_Rep_grouphessian_exp2 \
+    --prune_method group_hessian --speed_up 2.0 > logs/yolov5n_C3_Faster_Rep_grouphessian_exp2.log 2>&1 & tail -f logs/yolov5n_C3_Faster_Rep_grouphessian_exp2.log
+
+nohup python compress.py --data /home/hjj/Desktop/dataset/dataset_crowdhuman/data_exp.yaml --weights runs/train/yolov5n_C3_Faster_Rep/weights/best.pt \
+    --epochs 200 --cache --batch-size 64 --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_C3_Faster_Rep_grouptaylor_exp1 \
+    --prune_method group_taylor --speed_up 2.0 > logs/yolov5n_C3_Faster_Rep_grouptaylor_exp1.log 2>&1 & tail -f logs/yolov5n_C3_Faster_Rep_grouptaylor_exp1.log
+
+nohup python compress.py --data /home/hjj/Desktop/dataset/dataset_crowdhuman/data_exp.yaml --weights runs/train/yolov5n_C3_Faster_Rep/weights/best.pt \
+    --epochs 200 --cache --batch-size 64 --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_C3_Faster_Rep_grouptaylor_exp2 \
+    --prune_method group_taylor --speed_up 2.0 > logs/yolov5n_C3_Faster_Rep_grouptaylor_exp2.log 2>&1 & tail -f logs/yolov5n_C3_Faster_Rep_grouptaylor_exp2.log
+
+python val.py --weights runs/train/yolov5n_C3_Faster_Rep/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_crowdhuman/data_exp.yaml --batch-size 32 --task test --name yolov5n_C3_Faster_Rep
+python val.py --weights runs/train/yolov5n_C3_Faster_Rep_lamp_exp1/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_crowdhuman/data_exp.yaml --batch-size 32 --task test --name yolov5n_C3_Faster_Rep_lamp_exp1
+python val.py --weights runs/train/yolov5n_C3_Faster_Rep_slim_exp1/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_crowdhuman/data_exp.yaml --batch-size 32 --task test --name yolov5n_C3_Faster_Rep_slim_exp1
+python val.py --weights runs/train/yolov5n_C3_Faster_Rep_groupslim_exp1/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_crowdhuman/data_exp.yaml --batch-size 32 --task test --name yolov5n_C3_Faster_Rep_groupslim_exp1
+python val.py --weights runs/train/yolov5n_C3_Faster_Rep_groupsl_exp1/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_crowdhuman/data_exp.yaml --batch-size 32 --task test --name yolov5n_C3_Faster_Rep_groupsl_exp1
+python val.py --weights runs/train/yolov5n_C3_Faster_Rep_groupnorm_exp1/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_crowdhuman/data_exp.yaml --batch-size 32 --task test --name yolov5n_C3_Faster_Rep_groupnorm_exp1
+python val.py --weights runs/train/yolov5n_C3_Faster_Rep_grouphessian_exp1/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_crowdhuman/data_exp.yaml --batch-size 32 --task test --name yolov5n_C3_Faster_Rep_grouphessian_exp1
+python val.py --weights runs/train/yolov5n_C3_Faster_Rep_grouphessian_exp2/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_crowdhuman/data_exp.yaml --batch-size 32 --task test --name yolov5n_C3_Faster_Rep_grouphessian_exp2
+python val.py --weights runs/train/yolov5n_C3_Faster_Rep_grouptaylor_exp1/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_crowdhuman/data_exp.yaml --batch-size 32 --task test --name yolov5n_C3_Faster_Rep_grouptaylor_exp1
+python val.py --weights runs/train/yolov5n_C3_Faster_Rep_grouptaylor_exp2/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_crowdhuman/data_exp.yaml --batch-size 32 --task test --name yolov5n_C3_Faster_Rep_grouptaylor_exp2
+
+python latency.py --weights runs/train/yolov5n_C3_Faster_Rep/weights/best.pt --batch 32
+python latency.py --weights runs/train/yolov5n_C3_Faster_Rep_lamp_exp1/weights/best.pt --batch 32
+python latency.py --weights runs/train/yolov5n_C3_Faster_Rep_slim_exp1/weights/best.pt --batch 32
+python latency.py --weights runs/train/yolov5n_C3_Faster_Rep_groupslim_exp1/weights/best.pt --batch 32
+python latency.py --weights runs/train/yolov5n_C3_Faster_Rep_groupsl_exp1/weights/best.pt --batch 32
+python latency.py --weights runs/train/yolov5n_C3_Faster_Rep_groupnorm_exp1/weights/best.pt --batch 32
+python latency.py --weights runs/train/yolov5n_C3_Faster_Rep_grouphessian_exp1/weights/best.pt --batch 32
+python latency.py --weights runs/train/yolov5n_C3_Faster_Rep_grouphessian_exp2/weights/best.pt --batch 32
+python latency.py --weights runs/train/yolov5n_C3_Faster_Rep_grouptaylor_exp1/weights/best.pt --batch 32
+python latency.py --weights runs/train/yolov5n_C3_Faster_Rep_grouptaylor_exp2/weights/best.pt --batch 32
+
+python plot_channel_image.py --base-weights runs/train/yolov5n_C3_Faster_Rep/weights/best.pt --prune-weights runs/train/yolov5n_C3_Faster_Rep_groupsl_exp1/weights/best.pt
+
+########################## distill for models/yolov5n.yaml teacher:yolov5s+OTA ##########################
+nohup python train.py --weights yolov5n.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --cfg models/yolov5n.yaml --epochs 300 --cache --batch-size 64 \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n > logs/yolov5n.log 2>&1 & tail -f logs/yolov5n.log
+
+nohup python train.py --weights yolov5s.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --cfg models/yolov5s.yaml --epochs 300 --cache --batch-size 64 \
+    --hyp data/hyps/hyp.scratch-med.yaml --name yolov5s > logs/yolov5s.log 2>&1 & tail -f logs/yolov5s.log
+
+nohup python train_distill.py --weights yolov5n.pt --cfg models/yolov5n.yaml --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 300 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_cwd_exp1 \
+    --kd_loss_ratio 0.02 --kd_loss_type feature --teacher_kd_layers 13,17,20,23 --student_kd_layers 13,17,20,23 --feature_loss_type cwd \
+    > logs/yolov5n_cwd_exp1.log 2>&1 & tail -f logs/yolov5n_cwd_exp1.log
+
+nohup python train_distill.py --weights yolov5n.pt --cfg models/yolov5n.yaml --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 300 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_cwd_exp2 \
+    --feature_loss_ratio 0.1 --kd_loss_type feature --teacher_kd_layers 13,17,20,23 --student_kd_layers 13,17,20,23 --feature_loss_type cwd \
+    > logs/yolov5n_cwd_exp2.log 2>&1 & tail -f logs/yolov5n_cwd_exp2.log
+
+nohup python train_distill.py --weights yolov5n.pt --cfg models/yolov5n.yaml --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 300 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_cwd_exp3 \
+    --kd_loss_ratio 0.1 --kd_loss_type feature --teacher_kd_layers 1,2,4,6,9 --student_kd_layers 1,2,4,6,9 --feature_loss_type cwd \
+    > logs/yolov5n_cwd_exp3.log 2>&1 & tail -f logs/yolov5n_cwd_exp3.log
+
+nohup python train_distill.py --weights yolov5n.pt --cfg models/yolov5n.yaml --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 300 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_cwd_exp4 \
+    --kd_loss_ratio 0.05 --kd_loss_type feature --teacher_kd_layers 1,2,4,6,9 --student_kd_layers 1,2,4,6,9 --feature_loss_type cwd \
+    > logs/yolov5n_cwd_exp4.log 2>&1 & tail -f logs/yolov5n_cwd_exp4.log
+
+nohup python train_distill.py --weights yolov5n.pt --cfg models/yolov5n.yaml --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 300 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_mgd_exp1 \
+    --kd_loss_ratio 0.02 --kd_loss_type feature --teacher_kd_layers 13,17,20,23 --student_kd_layers 13,17,20,23 --feature_loss_type mgd \
+    > logs/yolov5n_mgd_exp1.log 2>&1 & tail -f logs/yolov5n_mgd_exp1.log
+
+nohup python train_distill.py --weights yolov5n.pt --cfg models/yolov5n.yaml --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 300 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_mgd_exp2 \
+    --kd_loss_ratio 0.005 --kd_loss_type feature --teacher_kd_layers 1,2,4,6,9 --student_kd_layers 1,2,4,6,9 --feature_loss_type mgd \
+    > logs/yolov5n_mgd_exp2.log 2>&1 & tail -f logs/yolov5n_mgd_exp2.log
+
+nohup python train_distill.py --weights yolov5n.pt --cfg models/yolov5n.yaml --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 300 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_mimic_exp1 \
+    --kd_loss_ratio 0.1 --kd_loss_type feature --teacher_kd_layers 13,17,20,23 --student_kd_layers 13,17,20,23 --feature_loss_type mimic \
+    > logs/yolov5n_mimic_exp1.log 2>&1 & tail -f logs/yolov5n_mimic_exp1.log
+
+nohup python train_distill.py --weights yolov5n.pt --cfg models/yolov5n.yaml --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 300 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_mimic_exp2 \
+    --kd_loss_ratio 0.1 --kd_loss_type feature --teacher_kd_layers 1,2,4,6,9 --student_kd_layers 1,2,4,6,9 --feature_loss_type mimic \
+    > logs/yolov5n_mimic_exp2.log 2>&1 & tail -f logs/yolov5n_mimic_exp2.log
+
+nohup python train_distill.py --weights yolov5n.pt --cfg models/yolov5n.yaml --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 300 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_output_exp1 \
+    --kd_loss_ratio 0.05 --kd_loss_type output \
+    > logs/yolov5n_output_exp1.log 2>&1 & tail -f logs/yolov5n_output_exp1.log
+
+nohup python train_distill.py --weights yolov5n.pt --cfg models/yolov5n.yaml --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 300 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_output_exp2 \
+    --kd_loss_ratio 0.1 --kd_loss_type output \
+    > logs/yolov5n_output_exp2.log 2>&1 & tail -f logs/yolov5n_output_exp2.log
+
+nohup python train_distill.py --weights yolov5n.pt --cfg models/yolov5n.yaml --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 300 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_output_exp3 \
+    --kd_loss_ratio 0.2 --kd_loss_type output \
+    > logs/yolov5n_output_exp3.log 2>&1 & tail -f logs/yolov5n_output_exp3.log
+
+nohup python train_distill.py --weights yolov5n.pt --cfg models/yolov5n.yaml --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 300 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_ast_exp1 \
+    --logical_loss_ratio 0.05 --kd_loss_type logical --logical_loss_type AlignSoftTarget --kd_loss_decay constant \
+    > logs/yolov5n_ast_exp1.log 2>&1 & tail -f logs/yolov5n_ast_exp1.log
+
+nohup python train_distill.py --weights yolov5n.pt --cfg models/yolov5n.yaml --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 300 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_ast_exp2 \
+    --logical_loss_ratio 0.1 --kd_loss_type logical --logical_loss_type AlignSoftTarget --kd_loss_decay constant \
+    > logs/yolov5n_ast_exp2.log 2>&1 & tail -f logs/yolov5n_ast_exp2.log
+
+nohup python train_distill.py --weights yolov5n.pt --cfg models/yolov5n.yaml --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 300 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_all_exp1 --kd_loss_type all  --kd_loss_decay constant  \
+    --logical_loss_ratio 0.05 --logical_loss_type AlignSoftTarget\
+    --feature_loss_ratio 0.05 --feature_loss_type mgd --teacher_kd_layers 13,17,20,23 --student_kd_layers 13,17,20,23 \
+    > logs/yolov5n_all_exp1.log 2>&1 & tail -f logs/yolov5n_all_exp1.log
+
+nohup python train_distill.py --weights yolov5n.pt --cfg models/yolov5n.yaml --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 300 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_all_exp2 --kd_loss_type all  --kd_loss_decay constant  \
+    --logical_loss_ratio 0.05 --logical_loss_type AlignSoftTarget\
+    --feature_loss_ratio 0.005 --feature_loss_type mgd --teacher_kd_layers 13,17,20,23 --student_kd_layers 13,17,20,23 \
+    > logs/yolov5n_all_exp2.log 2>&1 & tail -f logs/yolov5n_all_exp2.log
+
+nohup python train_distill.py --weights yolov5n.pt --cfg models/yolov5n.yaml --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 300 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_all_exp3 --kd_loss_type all  --kd_loss_decay constant  \
+    --logical_loss_ratio 0.05 --logical_loss_type AlignSoftTarget\
+    --feature_loss_ratio 0.02 --feature_loss_type mgd --teacher_kd_layers 13,17,20,23 --student_kd_layers 13,17,20,23 \
+    > logs/yolov5n_all_exp3.log 2>&1 & tail -f logs/yolov5n_all_exp3.log
+
+python val.py --weights runs/train/yolov5n/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n
+python val.py --weights runs/train/yolov5s/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5s
+python val.py --weights runs/train/yolov5n_cwd_exp1/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_cwd_exp1
+python val.py --weights runs/train/yolov5n_cwd_exp2/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_cwd_exp2
+python val.py --weights runs/train/yolov5n_cwd_exp3/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_cwd_exp3
+python val.py --weights runs/train/yolov5n_cwd_exp4/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_cwd_exp4
+python val.py --weights runs/train/yolov5n_mgd_exp1/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_mgd_exp1
+python val.py --weights runs/train/yolov5n_mgd_exp2/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_mgd_exp2
+python val.py --weights runs/train/yolov5n_mimic_exp1/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_mimic_exp1
+python val.py --weights runs/train/yolov5n_mimic_exp2/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_mimic_exp2
+python val.py --weights runs/train/yolov5n_output_exp1/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_output_exp1
+python val.py --weights runs/train/yolov5n_output_exp2/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_output_exp2
+python val.py --weights runs/train/yolov5n_output_exp3/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_output_exp3
+python val.py --weights runs/train/yolov5n_ast_exp1/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_ast_exp1
+python val.py --weights runs/train/yolov5n_ast_exp2/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_ast_exp2
+python val.py --weights runs/train/yolov5n_all_exp1/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_all_exp1
+python val.py --weights runs/train/yolov5n_all_exp2/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_all_exp2
+python val.py --weights runs/train/yolov5n_all_exp3/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_all_exp3
+
+########################## distill and prune for models/yolov5n.yaml teacher:yolov5s+OTA ##########################
+---------------------prune:lamp-----------------------
+nohup python compress.py --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --weights runs/train/yolov5n/weights/best.pt \
+    --epochs 500 --cache --batch-size 64 --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_lamp_exp1 \
+    --prune_method lamp --speed_up 2.0 > logs/yolov5n_lamp_exp1.log 2>&1 & tail -f logs/yolov5n_lamp_exp1.log
+
+nohup python train_distill.py --weights runs/train/yolov5n_lamp_exp1/weights/prune.pt --prune_model --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 500 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_lamp_cwd_exp1 --kd_loss_type feature  --kd_loss_decay constant  \
+    --feature_loss_ratio 0.05 --feature_loss_type cwd --teacher_kd_layers 13,17,20,23 --student_kd_layers 13,17,20,23 \
+    > logs/yolov5n_lamp_cwd_exp1.log 2>&1 & tail -f logs/yolov5n_lamp_cwd_exp1.log
+
+nohup python train_distill.py --weights runs/train/yolov5n_lamp_exp1/weights/prune.pt --prune_model --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 500 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_lamp_cwd_exp2 --kd_loss_type feature  --kd_loss_decay constant  \
+    --feature_loss_ratio 0.02 --feature_loss_type cwd --teacher_kd_layers 13,17,20,23 --student_kd_layers 13,17,20,23 \
+    > logs/yolov5n_lamp_cwd_exp2.log 2>&1 & tail -f logs/yolov5n_lamp_cwd_exp2.log
+
+nohup python train_distill.py --weights runs/train/yolov5n_lamp_exp1/weights/prune.pt --prune_model --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 500 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_lamp_cwd_exp3 --kd_loss_type feature  --kd_loss_decay constant  \
+    --feature_loss_ratio 0.08 --feature_loss_type cwd --teacher_kd_layers 13,17,20,23 --student_kd_layers 13,17,20,23 \
+    > logs/yolov5n_lamp_cwd_exp3.log 2>&1 & tail -f logs/yolov5n_lamp_cwd_exp3.log
+
+nohup python train_distill.py --weights runs/train/yolov5n_lamp_exp1/weights/prune.pt --prune_model --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 500 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_lamp_cwd_exp4 --kd_loss_type feature  --kd_loss_decay constant  \
+    --feature_loss_ratio 0.08 --feature_loss_type cwd --teacher_kd_layers 1,2,4,6,9 --student_kd_layers 1,2,4,6,9 \
+    > logs/yolov5n_lamp_cwd_exp4.log 2>&1 & tail -f logs/yolov5n_lamp_cwd_exp4.log
+
+nohup python train_distill.py --weights runs/train/yolov5n_lamp_exp1/weights/prune.pt --prune_model --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 500 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_lamp_mgd_exp1 --kd_loss_type feature  --kd_loss_decay constant  \
+    --feature_loss_ratio 0.02 --feature_loss_type mgd --teacher_kd_layers 13,17,20,23 --student_kd_layers 13,17,20,23 \
+    > logs/yolov5n_lamp_mgd_exp1.log 2>&1 & tail -f logs/yolov5n_lamp_mgd_exp1.log
+
+nohup python train_distill.py --weights runs/train/yolov5n_lamp_exp1/weights/prune.pt --prune_model --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 500 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_lamp_mgd_exp2 --kd_loss_type feature  --kd_loss_decay constant  \
+    --feature_loss_ratio 0.01 --feature_loss_type mgd --teacher_kd_layers 13,17,20,23 --student_kd_layers 13,17,20,23 \
+    > logs/yolov5n_lamp_mgd_exp2.log 2>&1 & tail -f logs/yolov5n_lamp_mgd_exp2.log
+
+nohup python train_distill.py --weights runs/train/yolov5n_lamp_exp1/weights/prune.pt --prune_model --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 500 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_lamp_mgd_exp3 --kd_loss_type feature  --kd_loss_decay constant  \
+    --feature_loss_ratio 0.006 --feature_loss_type mgd --teacher_kd_layers 13,17,20,23 --student_kd_layers 13,17,20,23 \
+    > logs/yolov5n_lamp_mgd_exp3.log 2>&1 & tail -f logs/yolov5n_lamp_mgd_exp3.log
+
+nohup python train_distill.py --weights runs/train/yolov5n_lamp_exp1/weights/prune.pt --prune_model --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 500 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_lamp_l2_exp1 --kd_loss_type logical  --kd_loss_decay constant  \
+    --logical_loss_ratio 0.1 --logical_loss_type l2 \
+    > logs/yolov5n_lamp_l2_exp1.log 2>&1 & tail -f logs/yolov5n_lamp_l2_exp1.log
+
+nohup python train_distill.py --weights runs/train/yolov5n_lamp_exp1/weights/prune.pt --prune_model --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 500 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_lamp_l2_exp2 --kd_loss_type logical  --kd_loss_decay constant  \
+    --logical_loss_ratio 0.02 --logical_loss_type l2 \
+    > logs/yolov5n_lamp_l2_exp2.log 2>&1 & tail -f logs/yolov5n_lamp_l2_exp2.log
+
+nohup python train_distill.py --weights runs/train/yolov5n_lamp_exp1/weights/prune.pt --prune_model --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 500 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_lamp_ast_exp1 --kd_loss_type logical  --kd_loss_decay constant  \
+    --logical_loss_ratio 0.05 --logical_loss_type AlignSoftTarget \
+    > logs/yolov5n_lamp_ast_exp1.log 2>&1 & tail -f logs/yolov5n_lamp_ast_exp1.log
+
+nohup python train_distill.py --weights runs/train/yolov5n_lamp_exp1/weights/prune.pt --prune_model --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 500 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_lamp_ast_exp2 --kd_loss_type logical  --kd_loss_decay constant  \
+    --logical_loss_ratio 0.02 --logical_loss_type AlignSoftTarget \
+    > logs/yolov5n_lamp_ast_exp2.log 2>&1 & tail -f logs/yolov5n_lamp_ast_exp2.log
+
+nohup python train_distill.py --weights runs/train/yolov5n_lamp_exp1/weights/prune.pt --prune_model --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 500 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_lamp_ast_exp3 --kd_loss_type logical  --kd_loss_decay constant  \
+    --logical_loss_ratio 0.1 --logical_loss_type AlignSoftTarget \
+    > logs/yolov5n_lamp_ast_exp3.log 2>&1 & tail -f logs/yolov5n_lamp_ast_exp3.log
+
+nohup python train_distill.py --weights runs/train/yolov5n_lamp_exp1/weights/prune.pt --prune_model --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 500 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5n/weights/best.pt --teacher_cfg models/yolov5n.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_lamp_ast_exp4 --kd_loss_type logical  --kd_loss_decay constant  \
+    --logical_loss_ratio 0.1 --logical_loss_type AlignSoftTarget \
+    > logs/yolov5n_lamp_ast_exp4.log 2>&1 & tail -f logs/yolov5n_lamp_ast_exp4.log
+
+nohup python train_distill.py --weights runs/train/yolov5n_lamp_exp1/weights/prune.pt --prune_model --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 500 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5n/weights/best.pt --teacher_cfg models/yolov5n.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_lamp_ast_exp5 --kd_loss_type logical  --kd_loss_decay constant  \
+    --logical_loss_ratio 0.02 --logical_loss_type AlignSoftTarget \
+    > logs/yolov5n_lamp_ast_exp5.log 2>&1 & tail -f logs/yolov5n_lamp_ast_exp5.log
+
+python val.py --weights runs/train/yolov5n_lamp_exp1/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_lamp_exp1
+python val.py --weights runs/train/yolov5n_lamp_cwd_exp1/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_lamp_cwd_exp1
+python val.py --weights runs/train/yolov5n_lamp_cwd_exp2/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_lamp_cwd_exp2
+python val.py --weights runs/train/yolov5n_lamp_cwd_exp3/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_lamp_cwd_exp3
+python val.py --weights runs/train/yolov5n_lamp_mgd_exp1/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_lamp_mgd_exp1
+python val.py --weights runs/train/yolov5n_lamp_mgd_exp2/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_lamp_mgd_exp2
+python val.py --weights runs/train/yolov5n_lamp_mgd_exp3/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_lamp_mgd_exp3
+python val.py --weights runs/train/yolov5n_lamp_l2_exp1/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_lamp_l2_exp1
+python val.py --weights runs/train/yolov5n_lamp_l2_exp2/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_lamp_l2_exp2
+python val.py --weights runs/train/yolov5n_lamp_ast_exp1/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_lamp_ast_exp1
+python val.py --weights runs/train/yolov5n_lamp_ast_exp2/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_lamp_ast_exp2
+python val.py --weights runs/train/yolov5n_lamp_ast_exp3/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_lamp_ast_exp3
+python val.py --weights runs/train/yolov5n_lamp_ast_exp4/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_lamp_ast_exp4
+python val.py --weights runs/train/yolov5n_lamp_ast_exp5/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_lamp_ast_exp5
+
+python latency.py --weights runs/train/yolov5n/weights/best.pt --batch 32
+python latency.py --weights runs/train/yolov5n_lamp_exp1/weights/best.pt --batch 32
+
+---------------------prune:group_sl-----------------------
+nohup python compress.py --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --weights runs/train/yolov5n/weights/best.pt \
+    --epochs 400 --cache --batch-size 64 --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_groupsl_exp1 \
+    --prune_method group_sl --speed_up 2.0 --reg 2e-3 --sl_epochs 500  > logs/yolov5n_groupsl_exp1.log 2>&1 & tail -f logs/yolov5n_groupsl_exp1.log
+
+nohup python train_distill.py --weights runs/train/yolov5n_groupsl_exp1/weights/prune.pt --prune_model --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 400 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_groupsl_cwd_exp1 --kd_loss_type feature  --kd_loss_decay constant  \
+    --feature_loss_ratio 0.05 --feature_loss_type cwd --teacher_kd_layers 13,17,20,23 --student_kd_layers 13,17,20,23 \
+    > logs/yolov5n_groupsl_cwd_exp1.log 2>&1 & tail -f logs/yolov5n_groupsl_cwd_exp1.log
+
+nohup python train_distill.py --weights runs/train/yolov5n_groupsl_exp1/weights/prune.pt --prune_model --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 400 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_groupsl_cwd_exp2 --kd_loss_type feature  --kd_loss_decay constant  \
+    --feature_loss_ratio 0.1 --feature_loss_type cwd --teacher_kd_layers 13,17,20,23 --student_kd_layers 13,17,20,23 \
+    > logs/yolov5n_groupsl_cwd_exp2.log 2>&1 & tail -f logs/yolov5n_groupsl_cwd_exp2.log
+
+nohup python train_distill.py --weights runs/train/yolov5n_groupsl_exp1/weights/prune.pt --prune_model --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 400 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_groupsl_cwd_exp3 --kd_loss_type feature  --kd_loss_decay constant  \
+    --feature_loss_ratio 0.15 --feature_loss_type cwd --teacher_kd_layers 13,17,20,23 --student_kd_layers 13,17,20,23 \
+    > logs/yolov5n_groupsl_cwd_exp3.log 2>&1 & tail -f logs/yolov5n_groupsl_cwd_exp3.log
+
+nohup python train_distill.py --weights runs/train/yolov5n_groupsl_exp1/weights/prune.pt --prune_model --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 400 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_groupsl_cwd_exp4 --kd_loss_type feature  --kd_loss_decay linear  \
+    --feature_loss_ratio 0.1 --feature_loss_type cwd --teacher_kd_layers 13,17,20,23 --student_kd_layers 13,17,20,23 \
+    > logs/yolov5n_groupsl_cwd_exp4.log 2>&1 & tail -f logs/yolov5n_groupsl_cwd_exp4.log
+
+nohup python train_distill.py --weights runs/train/yolov5n_groupsl_exp1/weights/prune.pt --prune_model --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 400 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_groupsl_cwd_exp5 --kd_loss_type feature  --kd_loss_decay cosine_epoch  \
+    --feature_loss_ratio 0.1 --feature_loss_type cwd --teacher_kd_layers 13,17,20,23 --student_kd_layers 13,17,20,23 \
+    > logs/yolov5n_groupsl_cwd_exp5.log 2>&1 & tail -f logs/yolov5n_groupsl_cwd_exp5.log
+
+nohup python train_distill.py --weights runs/train/yolov5n_groupsl_exp1/weights/prune.pt --prune_model --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 400 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_groupsl_mgd_exp1 --kd_loss_type feature  --kd_loss_decay constant  \
+    --feature_loss_ratio 0.1 --feature_loss_type mgd --teacher_kd_layers 13,17,20,23 --student_kd_layers 13,17,20,23 \
+    > logs/yolov5n_groupsl_mgd_exp1.log 2>&1 & tail -f logs/yolov5n_groupsl_mgd_exp1.log
+
+nohup python train_distill.py --weights runs/train/yolov5n_groupsl_exp1/weights/prune.pt --prune_model --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 400 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_groupsl_mgd_exp2 --kd_loss_type feature  --kd_loss_decay constant  \
+    --feature_loss_ratio 0.01 --feature_loss_type mgd --teacher_kd_layers 13,17,20,23 --student_kd_layers 13,17,20,23 \
+    > logs/yolov5n_groupsl_mgd_exp2.log 2>&1 & tail -f logs/yolov5n_groupsl_mgd_exp2.log
+
+nohup python train_distill.py --weights runs/train/yolov5n_groupsl_exp1/weights/prune.pt --prune_model --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 400 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_groupsl_mgd_exp3 --kd_loss_type feature  --kd_loss_decay constant  \
+    --feature_loss_ratio 0.007 --feature_loss_type mgd --teacher_kd_layers 13,17,20,23 --student_kd_layers 13,17,20,23 \
+    > logs/yolov5n_groupsl_mgd_exp3.log 2>&1 & tail -f logs/yolov5n_groupsl_mgd_exp3.log
+
+nohup python train_distill.py --weights runs/train/yolov5n_groupsl_exp1/weights/prune.pt --prune_model --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 400 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_groupsl_mgd_exp4 --kd_loss_type feature  --kd_loss_decay linear  \
+    --feature_loss_ratio 0.02 --feature_loss_type mgd --teacher_kd_layers 13,17,20,23 --student_kd_layers 13,17,20,23 \
+    > logs/yolov5n_groupsl_mgd_exp4.log 2>&1 & tail -f logs/yolov5n_groupsl_mgd_exp4.log
+
+nohup python train_distill.py --weights runs/train/yolov5n_groupsl_exp1/weights/prune.pt --prune_model --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 400 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_groupsl_ast_exp1 --kd_loss_type logical  --kd_loss_decay constant  \
+    --logical_loss_ratio 0.05 --logical_loss_type AlignSoftTarget \
+    > logs/yolov5n_groupsl_ast_exp1.log 2>&1 & tail -f logs/yolov5n_groupsl_ast_exp1.log
+
+nohup python train_distill.py --weights runs/train/yolov5n_groupsl_exp1/weights/prune.pt --prune_model --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 400 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_groupsl_ast_exp2 --kd_loss_type logical  --kd_loss_decay constant  \
+    --logical_loss_ratio 0.03 --logical_loss_type AlignSoftTarget \
+    > logs/yolov5n_groupsl_ast_exp2.log 2>&1 & tail -f logs/yolov5n_groupsl_ast_exp2.log
+
+nohup python train_distill.py --weights runs/train/yolov5n_groupsl_exp1/weights/prune.pt --prune_model --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 400 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_groupsl_ast_exp3 --kd_loss_type logical  --kd_loss_decay constant  \
+    --logical_loss_ratio 0.08 --logical_loss_type AlignSoftTarget \
+    > logs/yolov5n_groupsl_ast_exp3.log 2>&1 & tail -f logs/yolov5n_groupsl_ast_exp3.log
+
+nohup python train_distill.py --weights runs/train/yolov5n_groupsl_exp1/weights/prune.pt --prune_model --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 400 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_groupsl_cwd_ast_exp1 --kd_loss_type all  --kd_loss_decay constant  \
+    --logical_loss_ratio 0.05 --logical_loss_type AlignSoftTarget\
+    --feature_loss_ratio 0.1 --feature_loss_type cwd --teacher_kd_layers 13,17,20,23 --student_kd_layers 13,17,20,23 \
+    > logs/yolov5n_groupsl_cwd_ast_exp1.log 2>&1 & tail -f logs/yolov5n_groupsl_cwd_ast_exp1.log
+
+nohup python train_distill.py --weights runs/train/yolov5n_groupsl_exp1/weights/prune.pt --prune_model --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 400 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_groupsl_cwd_ast_exp2 --kd_loss_type all  --kd_loss_decay constant  \
+    --logical_loss_ratio 0.02 --logical_loss_type AlignSoftTarget\
+    --feature_loss_ratio 0.08 --feature_loss_type cwd --teacher_kd_layers 13,17,20,23 --student_kd_layers 13,17,20,23 \
+    > logs/yolov5n_groupsl_cwd_ast_exp2.log 2>&1 & tail -f logs/yolov5n_groupsl_cwd_ast_exp2.log
+
+nohup python train_distill.py --weights runs/train/yolov5n_groupsl_exp1/weights/prune.pt --prune_model --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 400 --cache --batch-size 64 \
+    --teacher_weights runs/train/yolov5s/weights/best.pt --teacher_cfg models/yolov5s.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_groupsl_cwd_ast_exp3 --kd_loss_type all  --kd_loss_decay constant  \
+    --logical_loss_ratio 0.02 --logical_loss_type AlignSoftTarget\
+    --feature_loss_ratio 0.05 --feature_loss_type cwd --teacher_kd_layers 13,17,20,23 --student_kd_layers 13,17,20,23 \
+    > logs/yolov5n_groupsl_cwd_ast_exp3.log 2>&1 & tail -f logs/yolov5n_groupsl_cwd_ast_exp3.log
+
+python val.py --weights runs/train/yolov5n_groupsl_exp1/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_groupsl_exp1
+python val.py --weights runs/train/yolov5n_groupsl_cwd_exp1/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_groupsl_cwd_exp1
+python val.py --weights runs/train/yolov5n_groupsl_cwd_exp2/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_groupsl_cwd_exp2
+python val.py --weights runs/train/yolov5n_groupsl_cwd_exp3/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_groupsl_cwd_exp3
+python val.py --weights runs/train/yolov5n_groupsl_cwd_exp4/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_groupsl_cwd_exp4
+python val.py --weights runs/train/yolov5n_groupsl_cwd_exp5/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_groupsl_cwd_exp5
+python val.py --weights runs/train/yolov5n_groupsl_mgd_exp1/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_groupsl_mgd_exp1
+python val.py --weights runs/train/yolov5n_groupsl_mgd_exp2/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_groupsl_mgd_exp2
+python val.py --weights runs/train/yolov5n_groupsl_mgd_exp3/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_groupsl_mgd_exp3
+python val.py --weights runs/train/yolov5n_groupsl_mgd_exp4/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_groupsl_mgd_exp4
+python val.py --weights runs/train/yolov5n_groupsl_ast_exp1/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_groupsl_ast_exp1
+python val.py --weights runs/train/yolov5n_groupsl_ast_exp2/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_groupsl_ast_exp2
+python val.py --weights runs/train/yolov5n_groupsl_ast_exp3/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_groupsl_ast_exp3
+python val.py --weights runs/train/yolov5n_groupsl_cwd_ast_exp1/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_groupsl_cwd_ast_exp1
+python val.py --weights runs/train/yolov5n_groupsl_cwd_ast_exp2/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_groupsl_cwd_ast_exp2
+python val.py --weights runs/train/yolov5n_groupsl_cwd_ast_exp3/weights/best.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --batch-size 32 --task test --name yolov5n_groupsl_cwd_ast_exp3
+
+python latency.py --weights runs/train/yolov5n_groupsl_exp1/weights/best.pt --batch 32
+
+########################## prune models/yolov5n_repvit.yaml ##########################
+nohup python train.py --data data.yaml --cfg models/yolov5n.yaml --epochs 300 --cache --batch-size 32 \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n --device 0 > logs/yolov5n.log 2>&1 & tail -f logs/yolov5n.log
+
+nohup python train.py --data data.yaml --cfg models/yolov5n_repvit.yaml --epochs 300 --cache --batch-size 32 \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_repvit --device 1 > logs/yolov5n_repvit.log 2>&1 & tail -f logs/yolov5n_repvit.log
+
+python val.py --weights runs/train/yolov5n/weights/best.pt --data data.yaml --batch-size 32 --task test --name yolov5n
+python val.py --weights runs/train/yolov5n_repvit/weights/best.pt --data data.yaml --batch-size 32 --task test --name yolov5n_repvit
+
+python latency.py --weights runs/train/yolov5n/weights/best.pt --batch 32
+python latency.py --weights runs/train/yolov5n_repvit/weights/best.pt --batch 32
+
+---------------------prune:lamp-----------------------
+nohup python compress.py --data data.yaml --weights runs/train/yolov5n_repvit/weights/best.pt \
+    --epochs 300 --cache --batch-size 32 --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_repvit_lamp_exp1 \
+    --prune_method lamp --speed_up 2.0 --device 0 > logs/yolov5n_repvit_lamp_exp1.log 2>&1 & tail -f logs/yolov5n_repvit_lamp_exp1.log
+
+nohup python compress.py --data data.yaml --weights runs/train/yolov5n_repvit/weights/best.pt \
+    --epochs 300 --cache --batch-size 32 --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_repvit_lamp_exp2 \
+    --prune_method lamp --speed_up 3.0 --device 0 > logs/yolov5n_repvit_lamp_exp2.log 2>&1 & tail -f logs/yolov5n_repvit_lamp_exp2.log
+
+nohup python compress.py --data data.yaml --weights runs/train/yolov5n_repvit/weights/best.pt \
+    --epochs 300 --cache --batch-size 32 --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_repvit_lamp_exp3 \
+    --prune_method lamp --speed_up 3.5 --device 0 > logs/yolov5n_repvit_lamp_exp3.log 2>&1 & tail -f logs/yolov5n_repvit_lamp_exp3.log
+
+nohup python compress.py --data data.yaml --weights runs/train/yolov5n_repvit/weights/best.pt \
+    --epochs 300 --cache --batch-size 32 --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_repvit_lamp_exp4 \
+    --prune_method lamp --speed_up 4.0 --device 0 > logs/yolov5n_repvit_lamp_exp4.log 2>&1 & tail -f logs/yolov5n_repvit_lamp_exp4.log
+
+nohup python compress.py --data data.yaml --weights runs/train/yolov5n_repvit/weights/best.pt \
+    --epochs 300 --cache --batch-size 32 --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_repvit_lamp_exp5 \
+    --prune_method lamp --speed_up 5.0 --device 0 > logs/yolov5n_repvit_lamp_exp5.log 2>&1 & tail -f logs/yolov5n_repvit_lamp_exp5.log
+
+python val.py --weights runs/train/yolov5n_repvit_lamp_exp1/weights/best.pt --data data.yaml --batch-size 32 --task test --name yolov5n_repvit_lamp_exp1
+python val.py --weights runs/train/yolov5n_repvit_lamp_exp2/weights/best.pt --data data.yaml --batch-size 32 --task test --name yolov5n_repvit_lamp_exp2
+python val.py --weights runs/train/yolov5n_repvit_lamp_exp3/weights/best.pt --data data.yaml --batch-size 32 --task test --name yolov5n_repvit_lamp_exp3
+python val.py --weights runs/train/yolov5n_repvit_lamp_exp4/weights/best.pt --data data.yaml --batch-size 32 --task test --name yolov5n_repvit_lamp_exp4
+python val.py --weights runs/train/yolov5n_repvit_lamp_exp5/weights/best.pt --data data.yaml --batch-size 32 --task test --name yolov5n_repvit_lamp_exp5
+
+python latency.py --weights runs/train/yolov5n_repvit_lamp_exp1/weights/best.pt --batch 32
+python latency.py --weights runs/train/yolov5n_repvit_lamp_exp2/weights/best.pt --batch 32
+python latency.py --weights runs/train/yolov5n_repvit_lamp_exp3/weights/best.pt --batch 32
+python latency.py --weights runs/train/yolov5n_repvit_lamp_exp4/weights/best.pt --batch 32
+python latency.py --weights runs/train/yolov5n_repvit_lamp_exp5/weights/best.pt --batch 32
+
+---------------------prune:group_sl-----------------------
+nohup python compress.py --data data.yaml --weights runs/train/yolov5n_repvit/weights/best.pt \
+    --epochs 300 --cache --batch-size 32 --hyp data/hyps/hyp.scratch-low.yaml --device 1 --name yolov5n_repvit_groupsl_exp1 \
+    --prune_method group_sl --speed_up 2.0 --reg 2e-3 --sl_epochs 500  > logs/yolov5n_repvit_groupsl_exp1.log 2>&1 & tail -f logs/yolov5n_repvit_groupsl_exp1.log
+
+python val.py --weights runs/train/yolov5n_repvit_groupsl_exp1/weights/best.pt --data data.yaml --batch-size 32 --task test --name yolov5n_repvit_groupsl_exp1
+python latency.py --weights runs/train/yolov5n_repvit_groupsl_exp1/weights/best.pt --batch 32
+
+---------------------prune:slim-----------------------
+nohup python compress.py --data data.yaml --weights runs/train/yolov5n_repvit/weights/best.pt \
+    --epochs 300 --cache --batch-size 32 --hyp data/hyps/hyp.scratch-low.yaml --device 1 --name yolov5n_repvit_slim_exp1 \
+    --prune_method slim --speed_up 2.0 --reg 5e-3 --sl_epochs 500  > logs/yolov5n_repvit_slim_exp1.log 2>&1 & tail -f logs/yolov5n_repvit_slim_exp1.log
+
+nohup python compress.py --data data.yaml --weights runs/train/yolov5n_repvit/weights/best.pt \
+    --epochs 300 --cache --batch-size 32 --hyp data/hyps/hyp.scratch-low.yaml --device 1 --name yolov5n_repvit_slim_exp2 \
+    --prune_method slim --speed_up 3.0 --sl_model runs/train/yolov5n_repvit_slim_exp1_sl/weights/best_sl_0.776.pt  > logs/yolov5n_repvit_slim_exp2.log 2>&1 & tail -f logs/yolov5n_repvit_slim_exp2.log
+
+nohup python compress.py --data data.yaml --weights runs/train/yolov5n_repvit/weights/best.pt \
+    --epochs 300 --cache --batch-size 32 --hyp data/hyps/hyp.scratch-low.yaml --device 0 --name yolov5n_repvit_slim_exp3 \
+    --prune_method slim --speed_up 4.0 --sl_model runs/train/yolov5n_repvit_slim_exp1_sl/weights/best_sl_0.776.pt  > logs/yolov5n_repvit_slim_exp3.log 2>&1 & tail -f logs/yolov5n_repvit_slim_exp3.log
+
+python val.py --weights runs/train/yolov5n_repvit_slim_exp1/weights/best.pt --data data.yaml --batch-size 32 --task test --name yolov5n_repvit_slim_exp1
+python val.py --weights runs/train/yolov5n_repvit_slim_exp2/weights/best.pt --data data.yaml --batch-size 32 --task test --name yolov5n_repvit_slim_exp2
+python val.py --weights runs/train/yolov5n_repvit_slim_exp3/weights/best.pt --data data.yaml --batch-size 32 --task test --name yolov5n_repvit_slim_exp3
+
+python latency.py --weights runs/train/yolov5n_repvit_slim_exp1/weights/best.pt --batch 32
+python latency.py --weights runs/train/yolov5n_repvit_slim_exp2/weights/best.pt --batch 32
+python latency.py --weights runs/train/yolov5n_repvit_slim_exp3/weights/best.pt --batch 32
+
+########################## distill and prune models/yolov5n_mobilenetv3_c2f_Faster.yaml ##########################
+nohup python train.py --weights yolov5n.pt --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --cfg models/hub/yolov5-p2.yaml --epochs 300 --cache --batch-size 32 \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n > logs/yolov5n.log 2>&1 & tail -f logs/yolov5n.log
+
+nohup python train.py --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --cfg models/yolov5n_mobilenetv3_c2f_Faster.yaml --epochs 300 --cache --batch-size 32 \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_mobilenetv3_c2f_Faster > logs/yolov5n_mobilenetv3_c2f_Faster.log 2>&1 & tail -f logs/yolov5n_mobilenetv3_c2f_Faster.log
+
+---------------------prune:lamp-----------------------
+nohup python compress.py --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --weights runs/train/yolov5n_mobilenetv3_c2f_Faster/weights/best.pt \
+    --epochs 300 --cache --batch-size 32 --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_mobilenetv3_c2f_Faster_lamp_exp1 \
+    --prune_method lamp --speed_up 2.0 > logs/yolov5n_mobilenetv3_c2f_Faster_lamp_exp1.log 2>&1 & tail -f logs/yolov5n_mobilenetv3_c2f_Faster_lamp_exp1.log
+
+nohup python train_distill.py --weights runs/train/yolov5n_mobilenetv3_c2f_Faster_lamp_exp1/weights/prune.pt --prune_model --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 300 --cache --batch-size 32 \
+    --teacher_weights runs/train/yolov5n_mobilenetv3_c2f_Faster/weights/best.pt --teacher_cfg models/yolov5n_mobilenetv3_c2f_Faster.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_mobilenetv3_c2f_Faster_cwd_exp1 --kd_loss_type feature  --kd_loss_decay linear_epoch  \
+    --feature_loss_ratio 0.01 --feature_loss_type mgd --teacher_kd_layers 5,9,13,16,19,22 --student_kd_layers 5,9,13,16,19,22 \
+    > logs/yolov5n_mobilenetv3_c2f_Faster_cwd_exp1.log 2>&1 & tail -f logs/yolov5n_mobilenetv3_c2f_Faster_cwd_exp1.log
+
+nohup python train_distill.py --weights runs/train/yolov5n_mobilenetv3_c2f_Faster_lamp_exp1/weights/prune.pt --prune_model --data /home/hjj/Desktop/dataset/dataset_visdrone/data_exp.yaml --epochs 300 --cache --batch-size 32 \
+    --teacher_weights runs/train/yolov5n/weights/best.pt --teacher_cfg models/hub/yolov5-p2.yaml \
+    --hyp data/hyps/hyp.scratch-low.yaml --name yolov5n_mobilenetv3_c2f_Faster_cwd_exp2 --kd_loss_type feature  --kd_loss_decay linear_epoch  \
+    --feature_loss_ratio 0.01 --feature_loss_type mgd --teacher_kd_layers 4,6,9 --student_kd_layers 0-2,0-3,0-4 \
+    > logs/yolov5n_mobilenetv3_c2f_Faster_cwd_exp2.log 2>&1 & tail -f logs/yolov5n_mobilenetv3_c2f_Faster_cwd_exp2.log
+
+########################## prune models/yolov5-efficientformerv2-goldyolo-asf.yaml ##########################
+nohup python train.py --weights '' --data /root/data_ssd/dataset_crowdhuman/data_20per.yaml --cfg models/yolov5-fasternet-goldyolo-asf.yaml --epochs 300 --cache --batch-size 32 \
+    --hyp data/hyps/hyp.scratch-low-ota.yaml --device 0 --name yolov5n > logs/yolov5n-improve.log 2>&1 & tail -f logs/yolov5n-improve.log
+
+nohup python train.py --weights '' --data /root/data_ssd/dataset_crowdhuman/data_20per.yaml --cfg models/yolov5n.yaml --epochs 300 --cache --batch-size 32 \
+    --hyp data/hyps/hyp.scratch-low.yaml --device 1 --name yolov5n > logs/yolov5n.log 2>&1 & tail -f logs/yolov5n.log
+
+python val.py --weights runs/train/yolov5n/weights/best.pt --data /root/data_ssd/dataset_crowdhuman/data_20per.yaml --batch-size 32 --task test --name yolov5n
+python val.py --weights runs/train/yolov5n2/weights/best.pt --data /root/data_ssd/dataset_crowdhuman/data_20per.yaml --batch-size 32 --task test --name yolov5n-improve
+
+---------------------prune:lamp-----------------------
+nohup python compress.py --data /root/data_ssd/dataset_crowdhuman/data_20per.yaml --weights runs/train/yolov5n2/weights/best.pt \
+    --epochs 300 --cache --batch-size 32 --hyp data/hyps/hyp.scratch-low-ota.yaml --name yolov5n_lamp_exp1 \
+    --prune_method lamp --speed_up 2.0 --global_pruning --device 0 > logs/yolov5n_lamp_exp1.log 2>&1 & tail -f logs/yolov5n_lamp_exp1.log
+
+nohup python compress.py --data /root/data_ssd/dataset_crowdhuman/data_20per.yaml --weights runs/train/yolov5n2/weights/best.pt \
+    --epochs 300 --cache --batch-size 32 --hyp data/hyps/hyp.scratch-low-ota.yaml --name yolov5n_lamp_exp2 \
+    --prune_method lamp --speed_up 3.0 --global_pruning --device 1 > logs/yolov5n_lamp_exp2.log 2>&1 & tail -f logs/yolov5n_lamp_exp2.log
+
+nohup python compress.py --data /root/data_ssd/dataset_crowdhuman/data_20per.yaml --weights runs/train/yolov5n2/weights/best.pt \
+    --epochs 300 --cache --batch-size 32 --hyp data/hyps/hyp.scratch-low-ota.yaml --name yolov5n_lamp_exp3 \
+    --prune_method lamp --speed_up 2.5 --global_pruning --device 1 > logs/yolov5n_lamp_exp3.log 2>&1 & tail -f logs/yolov5n_lamp_exp3.log
+
+python val.py --weights runs/train/yolov5n_lamp_exp1/weights/best.pt --data /root/data_ssd/dataset_crowdhuman/data_20per.yaml --batch-size 32 --task test --name yolov5n_lamp_exp1
+python val.py --weights runs/train/yolov5n_lamp_exp2/weights/best.pt --data /root/data_ssd/dataset_crowdhuman/data_20per.yaml --batch-size 32 --task test --name yolov5n_lamp_exp2
+python val.py --weights runs/train/yolov5n_lamp_exp3/weights/best.pt --data /root/data_ssd/dataset_crowdhuman/data_20per.yaml --batch-size 32 --task test --name yolov5n_lamp_exp3
+
+nohup python latency.py --weights runs/train/yolov5n/weights/best.pt --batch 32 > logs/yolov5n_fps.log 2>&1 & tail -f logs/yolov5n_fps.log
+nohup python latency.py --weights runs/train/yolov5n2/weights/best.pt --batch 32 > logs/yolov5n_improve_fps.log 2>&1 & tail -f logs/yolov5n_improve_fps.log
+nohup python latency.py --weights runs/train/yolov5n_lamp_exp1/weights/best.pt --batch 32 > logs/yolov5n_lamp_exp1_fps.log 2>&1 & tail -f logs/yolov5n_lamp_exp1_fps.log
+nohup python latency.py --weights runs/train/yolov5n_lamp_exp2/weights/best.pt --batch 32 > logs/yolov5n_lamp_exp2_fps.log 2>&1 & tail -f logs/yolov5n_lamp_exp2_fps.log
+nohup python latency.py --weights runs/train/yolov5n_lamp_exp3/weights/best.pt --batch 32 > logs/yolov5n_lamp_exp3_fps.log 2>&1 & tail -f logs/yolov5n_lamp_exp3_fps.log
+
+------------------------------BiliBili 魔鬼面具up主------------------------------
+剪枝相关
+
+# 环境
+python: 3.8.16
+torch: 1.13.1+cu117
+torchvision: 0.14.1+cu117
+pip install -i https://pypi.tuna.tsinghua.edu.cn/simple torch-pruning==1.3.7 thop ultralytics==8.0.136 tensorboard
+
+视频百度云链接(本项目中的剪枝教程与yolov7-prune基本一样,因为视频教程也需要查阅yolov7-prune项目中的commad.txt中的视频,yolov7-prune的按编号顺序看.):
+
+链接：https://pan.baidu.com/s/1kN6PzkpGVjaMM-lUTPnEFQ?pwd=pnow 
+提取码：pnow 
+1. yolov5n
+2. yolov5n+C3-Faster+RepConv
+3. yolov5n+RepViT+C2f
+4. yolov5n+fasternet+goldyolo+asf(fasternet在yolov7-prune有教程,这个视频是v8的ConvNextv2+goldyolo+asf,重点是看剪枝的教程)
+
+我自己实验的runs和logs百度云链接:
+
+1. yolov5n
+链接：https://pan.baidu.com/s/1Tmgm2ThIxTwW8Nrt8H1XMQ?pwd=ihaf 
+提取码：ihaf 
+
+2. yolov5n+C3-Faster+RepConv
+链接：https://pan.baidu.com/s/1xpFkH4Rf3SuUvT-2KMOrMw?pwd=xrxw 
+提取码：xrxw
+
+3. yolov5n+RepViT+C2f
+链接：https://pan.baidu.com/s/1ZSJwYQ8N6fafQkyttr2ZXw?pwd=kcce 
+提取码：kcce
+
+4. yolov5n+fasternet+goldyolo+asf
+链接：https://pan.baidu.com/s/16jr24i5neLkJy17Hc6-_NQ?pwd=ge5f 
+提取码：ge5f 
+
+------------------------------BiliBili 魔鬼面具up主------------------------------
+蒸馏相关：
+
+链接：https://pan.baidu.com/s/1rOgcXSw84_4mXuteTRN_4g?pwd=igni 
+提取码：igni 
+1. 蒸馏使用教程
+2. 蒸馏实验数据runs和logs
+3. 蒸馏小技巧
+
+------------------------------BiliBili 魔鬼面具up主------------------------------
+更新视频说明：
+
+-----20230926-----
+1. RepConv补充
+2. 通道对比图说明
+3. 推理时间脚本更新说明
+链接：https://pan.baidu.com/s/1L2-e0TL2eORJNyKfu_xvEw?pwd=z5nl 
+提取码：z5nl
+
+-----20231006-----
+1. 更新compress.py中稀疏训练的reg衰减方式
+2. 更新稀疏训练中训练结束后计算map的模型选择规则
+链接：https://pan.baidu.com/s/1Fb8WbfSjSoVM7FPerDvvpg?pwd=h5al 
+提取码：h5al 
+
+-----20231012-----
+1. 支持更换backbone后进行知识蒸馏
+2. 提供C2f-Faster转换示例
+链接：https://pan.baidu.com/s/1w66sUJGMXUTZgSvIVO8zqw?pwd=cnjz 
+提取码：cnjz 
+
+-----20231117-----
+1. 增加group_hessian和group_taylor两种剪枝算法.
+2. --global_pruning参数从默认为True改为默认为False.
+链接：https://pan.baidu.com/s/1isqkwu0FTkEuIzZVeEYr-A?pwd=hcid 
+提取码：hcid 
+
+-----20231127----- 本次更新只针对yolov5中使用C2f的用户
+链接：https://pan.baidu.com/s/1c7z9RVLCg789-wsmchr_NA?pwd=vfmy 
+提取码：vfmy
+
+-----20231201-----
+1. 修改compress.py和train_distill.py模型导入方式.
+2. 修正一些已知bug.
+
+-----20240121-----
+1. 增加ConvNextv2+GOLDYOLO+ASF剪枝教程(引用YOLOV8的视频)
+2. 增加ConvNextv2中的LayerNorm自定义剪枝Pruner.
+链接：https://pan.baidu.com/s/1vqWMpg20Zm3MOhio8aGeCg?pwd=5ln8 
+提取码：5ln8
+
+-----20240303-----
+1. 增加自定义剪枝版本的DyHead剪枝教程.(引用YOLOV8的视频)
+2. 增加DyHead自定义剪枝Pruner.
+链接：https://pan.baidu.com/s/1YVXyeAlzGfMJMJ8Ou5CKmw?pwd=hg6f 
+提取码：hg6f
+
+-----20240607-----
+1. 增加稀疏训练tensorboard可视化教程
+链接：https://pan.baidu.com/s/1Vpo_mMLIbLATQlOJz3fJdg?pwd=nedd 
+提取码：nedd 
