@@ -77,15 +77,11 @@ class UNet(nn.Module):
         return self.conv_final(x)
 
 
-if __name__ == '__main__':
-
-    # Creating / loading pre-trained PyNET model
-
+def export_onnx_model(onnx_model_path):
     model = UNet()
     model.eval()
 
     # Converting model to ONNX
-
     for _ in model.modules():
         _.training = False
 
@@ -93,16 +89,22 @@ if __name__ == '__main__':
     input_nodes = ['input']
     output_nodes = ['output']
 
-    torch.onnx.export(model, sample_input, "model.onnx", export_params=True, input_names=input_nodes, output_names=output_nodes)
+    torch.onnx.export(model, sample_input, onnx_model_path, export_params=True, input_names=input_nodes, output_names=output_nodes)
+
+
+if __name__ == '__main__':
+
+    # Creating / loading pre-trained PyNET model
+    onnx_model_name = "CLIPop13"
+    onnx_model_path = "model_{}.onnx".format(onnx_model_name)
 
     # Converting model to Tensorflow
-
-    onnx_model = onnx.load("model.onnx")
+    onnx_model = onnx.load(onnx_model_path)
     output = prepare(onnx_model)
-    output.export_graph("tf_model/")
+    output.export_graph("tf_model_{}/".format(onnx_model_name))
 
     # Exporting the resulting model to TFLite
 
-    converter = tf.lite.TFLiteConverter.from_saved_model("tf_model")
+    converter = tf.lite.TFLiteConverter.from_saved_model("tf_model_{}".format(onnx_model_name))
     tflite_model = converter.convert()
-    open("model.tflite", "wb").write(tflite_model)
+    open("model_{}.tflite".format(onnx_model_name), "wb").write(tflite_model)
