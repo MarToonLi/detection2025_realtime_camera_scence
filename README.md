@@ -16,9 +16,15 @@ https://codalab.lisn.upsaclay.fr/competitions/21563#participate-get_data
     - [x] 日志和checkpoints
     - [x] requirements.txt
 - [x] 数据集整理：
+  - [x] 以1:4比例分割training数据集得到train和val
 - [x] 模型选择yolov5
-- [x] FP32-torch模型转换为tflite模型脚本
-- [x] INT8量化-torch模型转换为tflite模型脚本
+- [x] 模型训练
+- [ ] 模型导出为tflite模型: 分类模型无法转换为tflite模型
+- [ ] pt模型推理: predict.py
+- [ ] tflite模型推理: predict.py
+- [ ] 模型优化提升精度和速度
+- [ ] FP32-torch模型转换为tflite模型脚本
+- [ ] INT8量化-torch模型转换为tflite模型脚本
 
 
 ## 尝试记录
@@ -31,8 +37,11 @@ https://github.com/onnx/tensorflow-onnx
 网友实现：https://blog.csdn.net/qq_40214464/article/details/122582080
 鉴于此，该流程可以推进。
 - 模型确定为yolov5剪枝版模型
-- 数据集如何组织？
+- 分割数据集进行测试
 - 多GPU训练
+需要使用torch.distributed.run
+- ❌模型导出为tflite模型: 分类模型无法转换为tflite模型
+torch和tflite的一些分类相关的算子比如全局池化层存在兼容性问题
 
 
 
@@ -40,13 +49,18 @@ https://github.com/onnx/tensorflow-onnx
 
 ## 常用命令
 单卡运行模式：
-python classify/train.py --model yolov5s-cls.pt  --epochs 10 --img 224  --batch-size 64  --data /ns_data/datasets/RTCS
+
+`python classify/train.py --model yolov5s-cls.pt  --epochs 10 --img 224  --batch-size 64  --data /ns_data/datasets/RTCS`
 
 多卡运行模式：
-python -m torch.distributed.run --nproc_per_node 2 --master_port 1 classify/train.py --model yolov5s-cls.pt --data /ns_data/datasets/RTCS --epochs 10 --img 224 --device 0,1
+
+`python -m torch.distributed.run --nproc_per_node 2 --master_port 1 classify/train.py --model yolov5s-cls.pt --data /ns_data/datasets/RTCS --epochs 10 --img 224 --device 0,1`
 
 ## 数据集组织形式
-### 图像分类任务：
+### 图像分类任务
+
+**文件结构**
+```python
 root
 ├── data
 │   ├── RTCS
@@ -62,10 +76,20 @@ root
 │   │   │   ├── 0
 │   │   │   ├── 1
 │   │   │   ├── 2
-注：
+```
+
+
+**注意事项**
 1. 调用时，只需要将data参数修改为 /root/data/RTCS
 2. 训练时，如果不存在test文件夹，将把val文件夹作为验证文件夹
 3. workers如果设置过大，会报错 ConnectionResetError: [Errno 104] Connection reset by peer
+4. 需要将训练集数据以1:4的比例分割成train和val两个文件夹
+
+
+**当前数据集路径**
+windows: F:\Projects\datasets\RTCS
+ubuntu:  /ns_data/datasets/RTCS
+
 
 ### 图像检测任务
 
