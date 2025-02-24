@@ -95,11 +95,11 @@ def export_onnx_model(onnx_model_path):
 if __name__ == '__main__':
 
     # Creating / loading pre-trained PyNET model
-    onnx_model_name = "CLIPop13"
+    onnx_model_name = "best"
     onnx_model_path = "model_{}.onnx".format(onnx_model_name)
 
     # Converting model to Tensorflow
-    onnx_model = onnx.load(onnx_model_path)
+    onnx_model = onnx.load("/ns_data/projets/detection2025_realtime_camera_scence/official_tools/MAI-2021-Workshop/model_best.onnx")
     output = prepare(onnx_model)
     output.export_graph("tf_model_{}/".format(onnx_model_name))
 

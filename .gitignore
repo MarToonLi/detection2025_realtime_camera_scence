@@ -9,3 +9,7 @@ __pypackages__/
 .ropeproject
 
 **/runs/*
+**.pb
+**.onnx
+**.tflite
+variables.**
