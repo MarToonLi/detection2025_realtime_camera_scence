@@ -93,18 +93,22 @@ def export_onnx_model(onnx_model_path):
 
 
 if __name__ == '__main__':
-
-    # Creating / loading pre-trained PyNET model
+    ROOT = r"F:\Projects\detection2025_realtime_camera_scence\official_tools\MAI-2021-Workshop\in_output"
+    test_name = "test1"
     onnx_model_name = "best"
-    onnx_model_path = "model_{}.onnx".format(onnx_model_name)
+    
+    
+    ROOT = os.path.join(ROOT, test_name)
+    onnx_model_path = os.path.join(ROOT, "model_{}.onnx".format(onnx_model_name))
+    tf_model_path = os.path.join(ROOT, "tf_model_{}/".format(onnx_model_name))
+    tflite_model_path = os.path.join(ROOT, "model_{}.tflite".format(onnx_model_name))
 
     # Converting model to Tensorflow
-    onnx_model = onnx.load("/ns_data/projets/detection2025_realtime_camera_scence/official_tools/MAI-2021-Workshop/model_best.onnx")
+    onnx_model = onnx.load(onnx_model_path)
     output = prepare(onnx_model)
-    output.export_graph("tf_model_{}/".format(onnx_model_name))
+    output.export_graph(tf_model_path)
 
     # Exporting the resulting model to TFLite
-
-    converter = tf.lite.TFLiteConverter.from_saved_model("tf_model_{}".format(onnx_model_name))
+    converter = tf.lite.TFLiteConverter.from_saved_model(tf_model_path)
     tflite_model = converter.convert()
-    open("model_{}.tflite".format(onnx_model_name), "wb").write(tflite_model)
+    open(tflite_model_path, "wb").write(tflite_model)

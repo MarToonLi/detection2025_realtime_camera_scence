@@ -115,10 +115,16 @@ def run(
         with dt[1]:
             results = model(im)
 
+        
+        print("results.shape: {}".format(results.shape))  # torch.Size([1, 30])
         # Post-process
         with dt[2]:
             pred = F.softmax(results, dim=1)  # probabilities
 
+        
+        print(">>>>> results: {}".format(results))  # torch.Size([1, 30])
+        print(">>>>> pred: {}".format(pred))  # torch.Size([1, 30])
+        
         # Process predictions
         for i, prob in enumerate(pred):  # per image
             seen += 1
@@ -139,8 +145,17 @@ def run(
             top5i = prob.argsort(0, descending=True)[:5].tolist()  # top 5 indices
             s += f"{', '.join(f'{names[j]} {prob[j]:.2f}' for j in top5i)}, "
 
+            top5ix = prob.argsort(0, descending=True)[:].tolist()  # top 5 indices
+
+            print("top5i: {}".format(top5ix))
+            print("names: {}".format(names))
+
+
             # Write results
             text = '\n'.join(f'{prob[j]:.2f} {names[j]}' for j in top5i)
+            
+            print("text: {}".format(text))
+            
             if save_img or view_img:  # Add bbox to image
                 annotator.text((32, 32), text, txt_color=(255, 255, 255))
             if save_txt:  # Write to file
@@ -190,9 +205,12 @@ def run(
 
 
 def parse_opt():
+    pt_model_path = r"F:\Projects\detection2025_realtime_camera_scence\official_tools\MAI-2021-Workshop\in_output\test1\model_best.pt"
+    image_path = r"F:\Projects\datasets\RTCS_split\val\1_Portrait\12.jpg"
+    
     parser = argparse.ArgumentParser()
-    parser.add_argument('--weights', nargs='+', type=str, default=ROOT / 'yolov5s-cls.pt', help='model path(s)')
-    parser.add_argument('--source', type=str, default=ROOT / 'data/images', help='file/dir/URL/glob/screen/0(webcam)')
+    parser.add_argument('--weights', nargs='+', type=str, default=pt_model_path, help='model path(s)')
+    parser.add_argument('--source', type=str, default=image_path, help='file/dir/URL/glob/screen/0(webcam)')
     parser.add_argument('--data', type=str, default=ROOT / 'data/coco128.yaml', help='(optional) dataset.yaml path')
     parser.add_argument('--imgsz', '--img', '--img-size', nargs='+', type=int, default=[224], help='inference size h,w')
     parser.add_argument('--device', default='', help='cuda device, i.e. 0 or 0,1,2,3 or cpu')

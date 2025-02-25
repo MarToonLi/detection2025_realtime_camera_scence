@@ -7,9 +7,10 @@ __pypackages__/
 
 # Rope project settings
 .ropeproject
-
 **/runs/*
 **.pb
 **.onnx
 **.tflite
 variables.**
+**.pt
+official_tools/MAI-2021-Workshop/in_output/test1/model_best.pt

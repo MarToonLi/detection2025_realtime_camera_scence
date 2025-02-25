@@ -177,6 +177,9 @@ def train(opt, device):
         if RANK in {-1, 0}:
             pbar = tqdm(enumerate(trainloader), total=len(trainloader), bar_format=TQDM_BAR_FORMAT)
         for i, (images, labels) in pbar:  # progress bar
+            
+            print("images: ", images.shape)
+            
             images, labels = images.to(device, non_blocking=True), labels.to(device)
 
             # Forward

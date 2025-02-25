@@ -1,0 +1,24 @@
+# conda create -n onnx2tf python=3.8.16        # python
+# conda activate onnx2tf
+
+
+
+### local onnx2tf
+#! pip install -i https://pypi.org/simple/   tf-estimator-nightly==2.8.0.dev2021122109
+#! 以下包可以通过镜像源安装
+tensorflow==2.8.0  # 官网readme要求
+onnx-tf            # 直接最新版(1.10.0)
+onnx               # 不限制其版本 (1.17.0)
+# pip install torch==1.12.1+cu102 torchvision==0.13.1+cu102 torchaudio==0.12.1 --extra-index-url https://download.pytorch.org/whl/cu102  # 10.2
+protobuf==3.20.*
+tensorflow-probability==0.16.0  # https://github.com/tensorflow/probability/releases/tag/v0.16.0
+onnxruntime         # (1.19.2)
+pillow              # (10.4.0)
+protobuf            # (3.20.3)
+torch               # 1.13.1+cu117
+
+
+### not neccessary
+# pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple                    
+# python -m pip install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple 
+# pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
